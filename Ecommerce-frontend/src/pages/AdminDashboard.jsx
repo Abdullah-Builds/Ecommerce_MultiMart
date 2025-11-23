@@ -1,4 +1,3 @@
-// --- same imports as your original code ---
 import React, { useEffect, useState } from "react";
 import {
   Container,
@@ -131,10 +130,8 @@ export default function AdminDashboardRB() {
         </Container>
       </Navbar>
 
-      {/* PAGE CONTENT */}
       <Container fluid className="p-4">
         <Row>
-          {/* SIDEBAR */}
           <Col xs={12} md={3} lg={2} className="mb-4">
             <Card
               className="shadow-sm"
@@ -163,13 +160,10 @@ export default function AdminDashboardRB() {
             </Card>
           </Col>
 
-          {/* MAIN CONTENT */}
           <Col xs={12} md={9} lg={10}>
             <SalesChart />
 
-            {/* METRICS */}
             <Row className="g-3 mb-4">
-              {/* CUSTOMERS CARD — FIXED */}
               <Col xs={12} md={4}>
                 <Card className="shadow-sm" style={{ border: "none" }}>
                   <Card.Body>
@@ -193,7 +187,6 @@ export default function AdminDashboardRB() {
                 </Card>
               </Col>
 
-              {/* REVENUE */}
               <Col xs={12} md={4}>
                 <Card className="shadow-sm" style={{ border: "none" }}>
                   <Card.Body>
@@ -218,9 +211,7 @@ export default function AdminDashboardRB() {
               <StocksChart />
             </Row>
 
-            {/* LOWER AREA */}
             <Row className="g-3">
-              {/* TRANSACTIONS */}
               <Col lg={4}>
                 <Card className="shadow-sm" style={{ border: "none" }}>
                   <Card.Body>
@@ -267,7 +258,6 @@ export default function AdminDashboardRB() {
                 </Card>
               </Col>
 
-              {/* NOTIFICATIONS */}
               <Col lg={4}>
                 <Card className="shadow-sm" style={{ border: "none" }}>
                   <Card.Body>

@@ -1,214 +1,17 @@
-// import React, { useState, useEffect } from "react";
-// import { v4 as uuidv4 } from "uuid";
-// import { toast } from "react-toastify";
-// import { products, category } from "../api/index";
-// import Select from "react-select";
 
-// function ListProduct() {
-//   const [formData, setFormData] = useState({
-//     category_id: uuidv4(),
-//     product_name: "",
-//     price: "",
-//     stock: "",
-//     description: "",
-//     image_url: "",
-//   });
-
-//   const [errors, setErrors] = useState({});
-
-//   // Handle input change
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   //Use Effect
-//   const [categories, setCategories] = useState([]);
-
-//   useEffect(() => {
-//     const controller = new AbortController();
-
-//     (async () => {
-//       try {
-//         const { data } = await category.getAllCategories({
-//           signal: controller.signal,
-//         });
-
-//         console.log("API response:", data);
-
-//         if (Array.isArray(data) && data.length > 0) {
-//           const mapped = data.map((item) => ({
-//             value: item.category_id,
-//             label: item.category_name,
-//           }));
-
-//           setCategories(mapped);
-//         }
-//       } catch (err) {
-//         if (!axios.isCancel(err)) console.error(err);
-//       }
-//     })();
-
-//     return () => controller.abort();
-//   }, []);
-
-//   // Validation function
-//   const validateForm = () => {
-//     const newErrors = {};
-
-//     if (!formData.product_name.trim())
-//       newErrors.name = "Product name is required.";
-//     if (formData.product_name.length > 20)
-//       newErrors.name = "Max 20 characters allowed.";
-
-//     if (!formData.price) newErrors.price = "Price is required.";
-//     else if (formData.price > 10000)
-//       newErrors.price = "Max price allowed is 10000.";
-
-//     if (!formData.stock) newErrors.stock = "Stock is required.";
-//     else if (formData.stock < 1 || formData.stock > 100)
-//       newErrors.stock = "Stock must be between 1 and 100.";
-
-//     if (!formData.image_url) newErrors.imageurl = "Image Required";
-
-//     if (!formData.category_id) newErrors.category_id = "Category Required";
-
-//     if (!formData.description.trim())
-//       newErrors.description = "Description is required.";
-//     else if (formData.description.length > 60)
-//       newErrors.description = "Max 15 characters allowed.";
-
-//     setErrors(newErrors);
-
-//     return Object.keys(newErrors).length === 0;
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     if (validateForm()) {
-//       console.log("Submitted Successfully:", formData);
-//       try {
-//         const response = await products.createProduct(formData);
-//         toast.success("Product saved successfully!");
-//       } catch {
-//         toast.error("Something went wrong!");
-//       }
-//     } else {
-//       return;
-//     }
-//   };
-
-//   return (
-//     <form className="product-form" onSubmit={handleSubmit}>
-//       <h2>Add Product</h2>
-
-//       <div className="form-group">
-//         <label>Product Name</label>
-//         <input
-//           name="product_name"
-//           value={formData.product_name}
-//           onChange={handleChange}
-//           maxLength="20"
-//         />
-//         {errors.name && <span className="error">{errors.name}</span>}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Price</label>
-//         <input
-//           type="number"
-//           name="price"
-//           value={formData.price}
-//           onChange={handleChange}
-//           max="10000"
-//         />
-//         {errors.price && <span className="error">{errors.price}</span>}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Price</label>
-//         <Select
-//           options={categories}
-//           placeholder="Filter By Category"
-//           isClearable
-//           onChange={(option) => {
-//             setFormData({
-//               ...formData,
-//               category_id: option ? option.value : "",
-//             });
-//           }}
-//         />
-//         {errors.category_id && (
-//           <span className="error">{errors.category_id}</span>
-//         )}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Image Url</label>
-//         <input
-//           type="url"
-//           name="image_url"
-//           value={formData.image_url}
-//           onChange={handleChange}
-//           max="10000"
-//         />
-//         {errors.image_url && <span className="error">{errors.image_url}</span>}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Stock</label>
-//         <input
-//           type="number"
-//           name="stock"
-//           value={formData.stock}
-//           onChange={handleChange}
-//           min="1"
-//           max="100"
-//         />
-//         {errors.stock && <span className="error">{errors.stock}</span>}
-//       </div>
-
-//       <div className="form-group">
-//         <label>Description</label>
-//         <input
-//           name="description"
-//           value={formData.description}
-//           onChange={handleChange}
-//           maxLength="60"
-//         />
-//         {errors.description && (
-//           <span className="error">{errors.description}</span>
-//         )}
-//       </div>
-
-//       <button type="submit" className="submit-btn">
-//         Submit
-//       </button>
-//     </form>
-//   );
-// }
-
-// export default ListProduct;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import { products, category } from "../api/index"; // adjust path if needed
+import { products, category } from "../api/index";
 
 function ManageProducts() {
-  const [mode, setMode] = useState("add"); // "add" | "update" | "delete"
+  const [mode, setMode] = useState("add"); 
 
-  // All categories & products
   const [categories, setCategories] = useState([]);
   const [productsList, setProductsList] = useState([]);
-
-  // Selected product id (for update/delete)
   const [selectedProductId, setSelectedProductId] = useState("");
 
-  // Form data used for add/update
   const [formData, setFormData] = useState({
     category_id: "",
     product_name: "",
@@ -218,10 +21,8 @@ function ManageProducts() {
     image_url: "",
   });
 
-  // Validation errors
   const [errors, setErrors] = useState({});
 
-  // --- Fetch categories and products ---
   useEffect(() => {
     const controller = new AbortController();
 
@@ -261,7 +62,6 @@ function ManageProducts() {
     return () => controller.abort();
   }, []);
 
-  // When a product is selected for update -> populate formData
   useEffect(() => {
     if (!selectedProductId) {
       if (mode === "update") {
@@ -290,13 +90,11 @@ function ManageProducts() {
     }
   }, [selectedProductId, productsList, mode]);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Basic validation per mode
   const validateForm = () => {
     const newErrors = {};
 
@@ -329,7 +127,6 @@ function ManageProducts() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Refresh lists after operations
   const refreshProducts = async () => {
     try {
       const res = await products.getproducts();
@@ -341,14 +138,12 @@ function ManageProducts() {
     }
   };
 
-  // Submit handlers
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     try {
       if (mode === "add") {
-        // Convert numeric fields
         const payload = {
           ...formData,
           price: Number(formData.price),
@@ -357,7 +152,6 @@ function ManageProducts() {
         console.log(payload)
         await products.createProduct(payload);
         toast.success("Product added successfully!");
-        // reset
         setFormData({
           category_id: "",
           product_name: "",
@@ -385,7 +179,6 @@ function ManageProducts() {
   };
 
   const handleDelete = async () => {
-    // validate selection
     if (!selectedProductId) {
       setErrors({ selectedProduct: "Please select a product to delete." });
       return;
@@ -408,14 +201,12 @@ function ManageProducts() {
     }
   };
 
-  // Select options
   const categoryOptions = categories;
   const productOptions = productsList.map((p) => ({
     value: p.product_id,
     label: `${p.product_name} ${p.price ? `— $${p.price}` : ""}`,
   }));
 
-  // Find selected product for preview
   const selectedProduct = productsList.find((p) => String(p.product_id) === String(selectedProductId));
 
   return (
@@ -424,7 +215,6 @@ function ManageProducts() {
         {mode === "add" ? "Add Product" : mode === "update" ? "Update Product" : "Delete Product"}
       </h2>
 
-      {/* Mode Toggle */}
       <div style={{ display: "flex", justifyContent: "center", marginBottom: 18 }}>
         {["add", "update", "delete"].map((m, idx) => (
           <button
@@ -433,7 +223,6 @@ function ManageProducts() {
             onClick={() => {
               setMode(m);
               setErrors({});
-              // reset selection & form when switching
               setSelectedProductId("");
               if (m === "add") {
                 setFormData({
@@ -445,7 +234,7 @@ function ManageProducts() {
                   image_url: "",
                 });
               } else {
-                setFormData((prev) => prev); // keep previous if needed
+                setFormData((prev) => prev); 
               }
             }}
             style={{
@@ -469,7 +258,6 @@ function ManageProducts() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        {/* For update and delete: choose product */}
         {(mode === "update" || mode === "delete") && (
           <div className="form-group">
             <label>Select Product</label>
@@ -490,7 +278,6 @@ function ManageProducts() {
           </div>
         )}
 
-        {/* Update & Add fields (for delete mode these are hidden) */}
         {(mode === "add" || mode === "update") && (
           <>
             <div className="form-group">
@@ -572,7 +359,6 @@ function ManageProducts() {
         )}
       </form>
 
-      {/* Delete controls */}
       {mode === "delete" && (
         <>
           <div style={{ marginTop: 14 }}>

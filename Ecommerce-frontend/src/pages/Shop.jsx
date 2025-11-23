@@ -23,7 +23,6 @@ const Shop = () => {
 
         console.log("API response:", data);
 
-        // data is already an array (based on the log you sent)
         if (Array.isArray(data) && data.length > 0) {
           const mapped = data.map((item) => ({
             value: item.category_id,
@@ -49,7 +48,6 @@ const Shop = () => {
     return () => controller.abort();
   }, []);
 
-  // Make changes in backend
   const handleCategoryChange = async (categoryId) => {
     console.log("Selected category:", categoryId);
     console.log("Length", products.length);
@@ -62,7 +60,6 @@ const Shop = () => {
     }
 
     try {
-      //product id search
       const { data } = await productsApi.getProductbyID(categoryId);
       console.log(data);
       setProducts(data);

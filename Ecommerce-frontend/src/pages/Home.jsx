@@ -20,12 +20,6 @@ const Home = () => {
         bgColor="#f6f9fc"
         productItems={discoutProducts}
       />
-      {/* <Section
-        title="New Arrivals"
-        bgColor="white"
-        productItems={newArrivalData}
-      />
-      <Section title="Best Sales" bgColor="#f6f9fc" productItems={bestSales} /> */}
     </Fragment>
   );
 };

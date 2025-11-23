@@ -75,7 +75,7 @@ export async function createOrderFromCart(req, res) {
 
 export async function getOrders(req, res) {
   const userId = req.user.userId;
-  const isAdmin = req.user && req.user.roleId === 1; // roleId 1 => Admin by seeding
+  const isAdmin = req.user && req.user.roleId === 1;
   try {
     let rows;
     if (isAdmin) {

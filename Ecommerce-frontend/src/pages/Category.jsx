@@ -5,7 +5,7 @@ import Select from "react-select";
 import axios from "axios";
 
 function CategoryForm() {
-  const [mode, setMode] = useState("update"); // toggle: "update" | "add" | "delete"
+  const [mode, setMode] = useState("update"); 
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const [formData, setFormData] = useState({
@@ -16,7 +16,6 @@ function CategoryForm() {
   const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
 
-  // Fetch categories
   useEffect(() => {
     const controller = new AbortController();
     (async () => {
@@ -115,7 +114,6 @@ function CategoryForm() {
           : "Delete Category"}
       </h2>
 
-      {/* Mode Toggle */}
       <div
         style={{
           display: "flex",

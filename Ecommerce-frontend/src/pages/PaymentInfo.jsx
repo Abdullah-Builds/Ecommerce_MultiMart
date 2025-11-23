@@ -93,7 +93,6 @@ const handleSubmit = async (e) => {
   try {
     toast.info("Processing checkout...");
 
-    // 1️⃣ Insert Address
     const addressRes = await address.InsertInfo({
       address_line1: userInfo.address1,
       address_line2: userInfo.address2,
@@ -109,7 +108,6 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    // 2️⃣ Create Order
     const orderRes = await order.InsertInfo({
       address_id: newAddressId
     });
@@ -122,7 +120,6 @@ const handleSubmit = async (e) => {
     const orderId = orderRes.data.order_id;
     const totalAmount = orderRes.data.total;
 
-    // 3️⃣ Create Payment
     const paymentRes = await payment.InsertInfo({
       order_id: orderId,
       transaction_id: paymentInfo.transactionId,
@@ -157,7 +154,6 @@ const handleSubmit = async (e) => {
   return (
     <div className="checkout-container">
       <form onSubmit={handleSubmit} className="checkout-form">
-        {/* User Info */}
         <div className="checkout-card">
           <h2>User Information</h2>
           <div className="form-grid">
@@ -176,11 +172,9 @@ const handleSubmit = async (e) => {
           </div>
         </div>
 
-        {/* Payment Info */}
         <div className="checkout-card">
           <h2>Payment Details</h2>
           <div className="form-grid">
-            {/* Transaction ID */}
             <div className="form-group">
               <label>Transaction ID</label>
               <input
@@ -192,7 +186,6 @@ const handleSubmit = async (e) => {
               {errors.transactionId && <span className="error">{errors.transactionId}</span>}
             </div>
 
-            {/* Amount */}
             <div className="form-group">
               <label>Amount</label>
               <input
@@ -204,7 +197,6 @@ const handleSubmit = async (e) => {
               {errors.amount && <span className="error">{errors.amount}</span>}
             </div>
 
-            {/* Payment Method */}
             <div className="form-group">
               <label>Payment Method</label>
               <select

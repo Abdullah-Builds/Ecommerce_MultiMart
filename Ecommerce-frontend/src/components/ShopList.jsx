@@ -4,9 +4,6 @@ import ProductCard from "./ProductCard/ProductCard";
 
 const ShopList = ({ productItems }) => {
   useEffect(() => {}, [productItems]);
-  // if (productItems.length === 0) {
-  //   return <h1 className="not-found">Product Not Found !!</h1>;
-  // }
 
   console.log("shoplist/1",productItems)
   return (

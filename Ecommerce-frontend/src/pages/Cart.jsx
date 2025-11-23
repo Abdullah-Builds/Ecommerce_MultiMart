@@ -15,7 +15,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartList } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  // middlware to localStorage
   const totalPrice = cartList.reduce(
     (price, item) => price + item.qty * item.price,
     0

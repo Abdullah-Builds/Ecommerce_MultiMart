@@ -16,5 +16,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </React.StrictMode>
 )
 
-// Optional: keep performance measuring if you need it
 reportWebVitals()

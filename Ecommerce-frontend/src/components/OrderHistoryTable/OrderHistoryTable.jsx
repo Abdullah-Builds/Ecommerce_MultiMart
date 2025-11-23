@@ -45,7 +45,6 @@ export default function OrderHistoryTable({ data }) {
       });
   };
 
-  // 🔥 DELETE ITEM
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure you want to remove this item?")) return;
 
