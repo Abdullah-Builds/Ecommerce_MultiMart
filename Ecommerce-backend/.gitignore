@@ -1,0 +1,51 @@
+# ===========================================
+# Node.js & Express Backend Git Ignore
+# ===========================================
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependency directories
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Build and runtime files
+dist/
+build/
+.cache/
+.tmp/
+coverage/
+.pnp.*
+.pnp.js
+
+# Database-related (optional, if you dump data or exports)
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment or process managers
+.pm2/
+.nodemonignore
+
+# Misc
+*.tgz
+*.swp

@@ -1,0 +1,210 @@
+.history-wrapper {
+  margin: 40px auto;
+  width: 95%;
+  max-width: 1100px;
+  background: rgba(255,255,255,0.03);
+  padding: 20px;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  overflow-x: auto; /* Enables horizontal scroll on small screens */
+}
+
+.cart-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  min-width: 600px; /* prevent table from crushing */
+}
+
+/* Table headers */
+.history-table th {
+  padding: 12px;
+  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Table cells */
+.history-table td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Image */
+.product-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* Quantity Input */
+.qty-input {
+  width: 60px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #777;
+  background: rgba(255,255,255,0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.qty-input.editable {
+  border: 1px solid #4da6ff;
+  background: rgba(77,166,255,0.15);
+}
+
+/* Buttons */
+.edit-btn,
+.save-btn {
+  padding: 6px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.edit-btn {
+  background: #4da6ff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1a8cff;
+}
+
+.save-btn {
+  background: #28c76f;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #22a65c;
+}
+
+.price,
+.total {
+  font-weight: 600;
+}
+
+/* -------------------------- */
+/* 📱 RESPONSIVE DESIGN BELOW */
+/* -------------------------- */
+
+/* For tablets */
+@media (max-width: 768px) {
+  .history-wrapper {
+    padding: 15px;
+  }
+
+  .product-img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .qty-input {
+    width: 50px;
+  }
+
+  .edit-btn,
+  .save-btn {
+    padding: 6px 12px;
+  }
+}
+
+/* For small mobiles */
+@media (max-width: 550px) {
+  .history-wrapper {
+    padding: 10px;
+  }
+
+  .cart-title {
+    font-size: 18px;
+  }
+
+  .product-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .qty-input {
+    width: 45px;
+  }
+
+  .edit-btn,
+  .save-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+}
+
+/* For very small screens — stack rows like cards */
+@media (max-width: 420px) {
+  .history-table {
+    border: 0;
+  }
+
+  .history-table thead {
+    display: none;
+  }
+
+  .history-table tr {
+    display: block;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .history-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px;
+    border: none;
+  }
+
+  .history-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    opacity: 0.7;
+  }
+
+  .product-img {
+    width: 55px;
+    height: 55px;
+  }
+}
+.delete-btn {
+  padding: 6px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  background: #ff4d4d;
+  color: white;
+  transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #e60000;
+}
+
+@media (max-width: 550px) {
+  .delete-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+}
