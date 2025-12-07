@@ -15,31 +15,15 @@ export async function salesByCategory(req, res) {
   } catch (err) { res.status(500).json({ message: err.message }); }
 }
 
-export async function topProducts(req, res) {
-  try {
-    const limit = Number(req.query.limit) || 10;
-    const [rows] = await pool.query(
-      `SELECT p.product_id, p.product_name, SUM(oi.quantity) AS total_sold
-       FROM order_items oi
-       JOIN products p ON oi.product_id = p.product_id
-       GROUP BY p.product_id, p.product_name
-       ORDER BY total_sold DESC
-       LIMIT ?`, [limit]
-    );
-    res.json(rows);
-  } catch (err) { res.status(500).json({ message: err.message }); }
-}
 
 export async function revenueByDay(req, res) {
   try {
-    // Today's revenue
     const [todayRows] = await pool.query(
       `SELECT SUM(amount) AS total_revenue
        FROM payments
        WHERE DATE(payment_date) = CURDATE();`
     );
 
-    // Yesterday's revenue
     const [yesterdayRows] = await pool.query(
       `SELECT SUM(amount) AS total_revenue
        FROM payments

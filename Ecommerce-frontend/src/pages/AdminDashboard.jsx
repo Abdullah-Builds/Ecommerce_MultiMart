@@ -81,55 +81,7 @@ export default function AdminDashboardRB() {
         backgroundColor: "#f4f6fb",
       }}
     >
-      {/* NAVBAR */}
-      <Navbar
-        expand="lg"
-        className="shadow-sm"
-        style={{ background: PRIMARY, padding: "12px 0" }}
-      >
-        <Container fluid>
-          <Navbar.Brand
-            href="#"
-            className="d-flex align-items-center"
-            style={{ color: "white", fontWeight: 600 }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 8,
-                background: "#ffffff33",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontWeight: 700,
-              }}
-            >
-              VR
-            </div>
-            <span className="ms-2">Volt React</span>
-          </Navbar.Brand>
-
-          <Navbar.Toggle style={{ background: "#fff" }} />
-          <Navbar.Collapse id="main-navbar">
-            <Nav className="ms-auto">
-              {["Overview", "Messages", "Transactions", "Settings"].map(
-                (i, idx) => (
-                  <Nav.Link
-                    key={idx}
-                    style={{ color: "white", fontWeight: 500 }}
-                    href="#"
-                  >
-                    {i}
-                  </Nav.Link>
-                )
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
+     
       <Container fluid className="p-4">
         <Row>
           <Col xs={12} md={3} lg={2} className="mb-4">

@@ -23,5 +23,4 @@ export const order = {
             headers : {Authorization : `Bearer ${token}`}
         })
     }
-    
 }

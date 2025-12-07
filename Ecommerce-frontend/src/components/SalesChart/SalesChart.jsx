@@ -62,7 +62,7 @@ export default function SalesChart() {
           <div>
             <h5 className="mb-1">Total Users</h5>
             <div className="d-flex align-items-baseline">
-              <h2 className="me-3 mb-0">{metrics.users_today}</h2>
+              <h2 className="me-3 mb-0">{metrics.users_today }</h2>
               <div className="text-success small">
                 ▲ {metrics.users_today > 0 ? ((metrics.users_before_today/metrics.users_today)*100).toFixed(1) : 0}% (Yesterday)
               </div>

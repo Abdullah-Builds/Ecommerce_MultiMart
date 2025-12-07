@@ -4,12 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../app/features/cart/cartSlice";
+import Cookies from "js-cookie";
+
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const router = useNavigate();
 
   const handelAdd = () => {
+    const token = Cookies.get("token");
+    if( !token ){
+     toast.error("Login First");
+     return;
+    }
+    
   const normalized = {
     ...product,
     id: product.product_id,     

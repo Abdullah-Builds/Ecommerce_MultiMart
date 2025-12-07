@@ -14,13 +14,12 @@ async function initialize() {
       multipleStatements: true,
     });
 
-    // 1️⃣ Create database
+    //  Create database
     await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
     console.log("✅ Database created or already exists");
 
     await connection.query(`USE ${process.env.DB_NAME}`);
 
-    // 2️⃣ Create normalized tables
     const createTablesSQL = `
     -- ============================================
     -- ROLES & USERS
@@ -144,24 +143,12 @@ async function initialize() {
         ON DELETE CASCADE ON UPDATE CASCADE
     );
 
-    -- ============================================
-    -- ADMIN ACTION LOGS
-    -- ============================================
-    CREATE TABLE IF NOT EXISTS admin_actions (
-      action_id INT AUTO_INCREMENT PRIMARY KEY,
-      admin_id INT NOT NULL,
-      action_type VARCHAR(100) NOT NULL,
-      description TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (admin_id) REFERENCES users(user_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
-    );
+    
     `;
 
     await connection.query(createTablesSQL);
-    console.log("✅ All normalized tables created successfully");
+    console.log(" All normalized tables created successfully");
 
-    // 3️⃣ Insert base data
     const insertDataSQL = `
     INSERT INTO roles (role_name) VALUES ('Admin'), ('Customer')
       ON DUPLICATE KEY UPDATE role_name=role_name;
@@ -183,14 +170,26 @@ async function initialize() {
       ON DUPLICATE KEY UPDATE product_name=product_name; `;
 
     await connection.query(insertDataSQL);
-    console.log("✅ Base data inserted successfully");
+    console.log(" Base data inserted successfully");
 
     await connection.end();
-    console.log("🎉 Database initialization completed!");
+    console.log(" Database initialization completed!");
     console.log("Password for admin = 1234567890")
   } catch (err) {
-    console.error("❌ Error initializing database:", err.message);
+    console.error(" Error initializing database:", err.message);
   }
 }
 
 initialize();
+// -- ============================================
+    // -- ADMIN ACTION LOGS
+    // -- ============================================
+    // CREATE TABLE IF NOT EXISTS admin_actions (
+    //   action_id INT AUTO_INCREMENT PRIMARY KEY,
+    //   admin_id INT NOT NULL,
+    //   action_type VARCHAR(100) NOT NULL,
+    //   description TEXT,
+    //   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    //   FOREIGN KEY (admin_id) REFERENCES users(user_id)
+    //     ON DELETE CASCADE ON UPDATE CASCADE
+    // );

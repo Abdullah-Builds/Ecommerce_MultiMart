@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../api/index";
  import Cookies from "js-cookie";
-
+ import { useNavigate } from "react-router-dom";
 export default function AuthForm() {
-  const [mode, setMode] = useState("login"); // login | register
+  const [mode, setMode] = useState("login");
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -14,8 +14,7 @@ export default function AuthForm() {
   });
   const [errors, setErrors] = useState({});
   const isLogin = mode === "login";
-
-  // Remove name & phone when switching to login
+const navigate = useNavigate();
   useEffect(() => {
     if (isLogin) {
       setFormData(({ full_name: name, phone, ...rest }) => rest);
@@ -23,31 +22,26 @@ export default function AuthForm() {
     }
   }, [isLogin]);
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Validation function
   const validate = (data) => {
     const errs = {};
 
-    // Email validation
     if (!data.email) {
       errs.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(data.email)) {
       errs.email = "Invalid email address";
     }
 
-    // Password validation
     if (!data.password) {
       errs.password = "Password is required";
     } else if (data.password.length < 8) {
       errs.password = "Password must be at least 8 characters";
     }
 
-    // Register-only fields
     if (!isLogin) {
       if (!data.full_name) errs.full_name = "Full name is required";
       if (!data.phone) {
@@ -60,7 +54,6 @@ export default function AuthForm() {
     return errs;
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate(formData);
@@ -71,11 +64,19 @@ export default function AuthForm() {
       if (isLogin) {
         const response = await auth.login(formData);
         Cookies.set("token", response?.data?.token, {
-          expires: 1,
+          expires: 7,
           secure: true,
           sameSite: "strict",
         });
+       
         toast.success("Logged in successfully!");
+        setTimeout(()=> {
+          navigate("/");
+         window.location.reload()
+        },2000);
+
+
+       
       } else {
         await auth.register(formData);
         console.log("Register data:", formData);

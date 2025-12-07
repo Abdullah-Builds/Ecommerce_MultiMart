@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./navbar.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { useSelector } from "react-redux";
-import Dropdown from "react-bootstrap/Dropdown";
+
 const NavBar = () => {
   const { cartList } = useSelector((state) => state.cart);
+  const { isAdmin } = useAuth();        
   const [expand, setExpand] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-  // fixed Header
   function scrollHandler() {
     if (window.scrollY >= 100) {
       setIsFixed(true);
@@ -16,6 +17,7 @@ const NavBar = () => {
       setIsFixed(false);
     }
   }
+
   window.addEventListener("scroll", scrollHandler);
   // useEffect(()=> {
   //   if(CartItem.length ===0) {
@@ -109,17 +111,19 @@ const NavBar = () => {
                 <span className="nav-link-label">Check Cart</span>
               </Link>
             </Nav.Item>
-           
-            {/* <Nav.Item>
-              <Link
-                aria-label="Go to Home Page"
-                className="navbar-link"
-                to="/category"
-                onClick={() => setExpand(false)}
-              >
-                <span className="nav-link-label">Category </span>
-              </Link>
-            </Nav.Item> */}
+
+            {isAdmin &&
+              <Nav.Item>
+                <Link
+                  aria-label="Go to Home Page"
+                  className="navbar-link"
+                  to="/admin"
+                  onClick={() => setExpand(false)}
+                >
+                  <span className="nav-link-label">Admin Dashboard </span>
+                </Link>
+              </Nav.Item>
+          }
 
             <Nav.Item>
               <Link

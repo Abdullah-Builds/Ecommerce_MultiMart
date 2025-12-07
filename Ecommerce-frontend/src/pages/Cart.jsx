@@ -7,7 +7,7 @@ import {
   decreaseQty,
   deleteProduct,
 } from "../app/features/cart/cartSlice";
-import { cart } from "../api/index";
+import { cart,products } from "../api/index";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
@@ -27,20 +27,38 @@ const Cart = () => {
     // }
   }, []);
 
-  const AddToCart = async () => {
-    try {
-      await Promise.all(
-        cartList.map((item) =>
-          cart.addtoCart({ product_id: item.product_id, quantity: item.qty })
-        )
-      );
-      toast.success("Items Added Successfully");
-      setTimeout(()=> navigate("/cart/payment"),1000)
-    } catch (err) {
-      console.log(err);
-      toast.error("Something Went Wrong");
+ const AddToCart = async () => {
+  try {
+    for (const item of cartList) {
+      const res = await products.getStock(item.product_id);
+      const stock = res?.data?.stock ?? 0;
+
+      if (item.qty > stock) {
+        toast.error(
+          `Only ${stock} left in stock for ${item.product_name}`
+        );
+        return; 
+      }
     }
-  };
+
+    await Promise.all(
+      cartList.map((item) =>
+        cart.addtoCart({
+          product_id: item.product_id,
+          quantity: item.qty,
+        })
+      )
+    );
+
+    toast.success("Items Added Successfully!");
+    setTimeout(() => navigate("/cart/payment"), 1000);
+
+  } catch (err) {
+    console.log(err);
+    toast.error("Something Went Wrong");
+  }
+};
+
   console.log("cartList", cartList);
 
   return (

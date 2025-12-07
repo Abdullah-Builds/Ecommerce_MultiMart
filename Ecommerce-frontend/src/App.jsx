@@ -7,7 +7,6 @@ import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PaymentInfo from "./pages/PaymentInfo";
 const Home = lazy(() => import("./pages/Home"));
 const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -16,6 +15,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Category = lazy(() => import("./pages/Category"));
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+import PaymentInfo from "./pages/PaymentInfo";
 
 function App() {
   return (
@@ -25,14 +25,14 @@ function App() {
           position="top-right"
           autoClose={1000}
           hideProgressBar={false}
-          newestOnTop={false}
           closeOnClick
-          pauseOnFocusLoss
-          draggable
           pauseOnHover
+          draggable
           theme="light"
         />
+
         <NavBar />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -41,7 +41,6 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/orderhistory" element={<OrderHistory />} />
 
-          {/* Admin Routes */}
           <Route
             path="/admin"
             element={
@@ -50,14 +49,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
-            path="/admin/ListProduct"
+            path="/admin/listproduct"
             element={
               <ProtectedRoute>
                 <ListProduct />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/admin/category"
             element={

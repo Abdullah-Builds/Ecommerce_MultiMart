@@ -1,22 +1,34 @@
+// import { Navigate } from "react-router-dom";
+// import { useEffect, useState } from "react";
+// import { admin } from "../../api";
+
+// export default function ProtectedRoute({ children }) {
+//   const [isAdmin, setIsAdmin] = useState(null); // null = loading
+
+//   useEffect(() => {
+//     (async () => {
+//       try {
+//         const res = await admin.CheckAccess();
+//         setIsAdmin(res.data?.role);
+//         console.log(res)
+//       } catch (err) {
+//         setIsAdmin(false);
+//         console.log(err)
+//       }
+//     })();
+//   }, []);
+
+//   if (isAdmin === null) return <div>Loading...</div>; 
+
+//   return isAdmin ? children : <Navigate to="/" replace />; 
+// }
 import { Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { admin } from "../../api";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProtectedRoute({ children }) {
-  const [isAdmin, setIsAdmin] = useState(null); // null = loading
+  const { loading, isAdmin } = useAuth();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await admin.checkAdminAccess(); // API returns { admin: true/false }
-        setIsAdmin(res.data?.admin);
-      } catch (err) {
-        setIsAdmin(false);
-      }
-    })();
-  }, []);
+  if (loading) return <div>Loading...</div>;
 
-  if (isAdmin === null) return <div>Loading...</div>; // or your Loader
-
-  return isAdmin ? children : <Navigate to="/" replace />; // redirect non-admins to home
+  return isAdmin ? children : <Navigate to="/" replace />;
 }

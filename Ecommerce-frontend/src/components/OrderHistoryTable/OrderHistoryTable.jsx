@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./OrderHistoryTable.css";
-import { cart } from "../../api/index";
+import { cart,products } from "../../api/index";
 import { toast } from "react-toastify";
 
 export default function OrderHistoryTable({ data }) {
   const [items, setItems] = useState([]);
   const [editingId, setEditingId] = useState(null);
-
+  
   useEffect(() => {
     if (data?.items) {
-      setItems(data.items);
+      setItems(data?.items);
+      console.log(data?.items)
     }
   }, [data]);
 
@@ -25,25 +26,26 @@ export default function OrderHistoryTable({ data }) {
     setEditingId(id);
   };
 
-  const handleSave = (id, qty) => {
-    new Promise((resolve, reject) => {
-      try {
-        cart.updateCart(id, { quantity: qty });
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    })
-      .then(() => {
-        toast.success("Item Updated Successfully!");
-      })
-      .catch(() => {
-        toast.error("Something went wrong!");
-      })
-      .finally(() => {
-        setEditingId(null);
-      });
-  };
+  const handleSave = async (id, qty, product_id) => {
+    console.log(product_id)
+  try {
+    const res = await products.getStock(product_id); 
+    const stock = res?.data?.stock;
+    console.log(res)
+
+    if (qty > stock) {
+      toast.error(`Only ${stock} items are available in stock.`);
+      return; 
+    }
+
+     cart.updateCart(id, { quantity: qty });
+
+    toast.success("Item Updated Successfully!");
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong!");
+  } 
+};
 
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure you want to remove this item?")) return;
@@ -121,7 +123,7 @@ export default function OrderHistoryTable({ data }) {
                 {editingId === item.cart_item_id ? (
                   <button
                     className="save-btn"
-                    onClick={() => handleSave(item.cart_item_id, item.quantity)}
+                    onClick={() => handleSave(item.cart_item_id, item.quantity,item.product_id)}
                   >
                     Save
                   </button>

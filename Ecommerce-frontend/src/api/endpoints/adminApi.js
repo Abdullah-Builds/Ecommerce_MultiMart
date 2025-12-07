@@ -5,7 +5,7 @@ export const admin = {
     CheckAccess : ()=>{
         const token = Cookies.get("token");
         if(!token) throw new Error ("No JWT Token Found");
-        return axiosClient.get('/api/analytics/stocks',{
+        return axiosClient.get('/api/admin/access',{
             headers : {Authorization : `Bearer ${token}`}
         })
     },

@@ -5,7 +5,6 @@ import {
   updateCartItem,
   removeCartItem,
   clearCart,
-  deactivateCart,
 } from "../controllers/cartsController.js";
 import { authenticate } from "../middleware/auth.js";
 
@@ -16,7 +15,6 @@ router.use(authenticate);
 // cart level
 router.get("/", getCart);
 router.delete("/", clearCart);
-router.patch("/deactivate", deactivateCart);
 
 // cart_items level
 router.post("/items", addToCart);

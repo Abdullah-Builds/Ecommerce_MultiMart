@@ -160,18 +160,4 @@ export async function clearCart(req, res) {
   }
 }
 
-/* --------------------------- Deactivate cart (after checkout) --------------------------- */
-export async function deactivateCart(req, res) {
-  const userId = req.user.userId;
 
-  try {
-    await pool.query(
-      "UPDATE carts SET is_active = FALSE WHERE user_id = ? AND is_active = TRUE",
-      [userId]
-    );
-
-    res.json({ message: "Cart deactivated" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-}

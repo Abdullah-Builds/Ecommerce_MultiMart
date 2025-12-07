@@ -81,6 +81,10 @@ function CategoryForm() {
       try {
         await category.deleteCategory(selectedCategory);
         toast.success("Category deleted successfully!");
+            setTimeout(()=>{
+             window.location.reload()
+          },2000);
+        
       } catch (err) {
         toast.err(err);
       }
@@ -90,9 +94,16 @@ function CategoryForm() {
         if (mode === "update") {
           await category.updateCategory(selectedCategory, formData);
           toast.success("Category updated successfully!");
+            setTimeout(()=>{
+             window.location.reload()
+          },2000);
         } else if (mode === "add") {
           await category.createCategory(formData);
           toast.success("Category added successfully!");
+
+          setTimeout(()=>{
+             window.location.reload()
+          },2000);
         }
       } catch (err) {
         toast.error("Something went wrong!");

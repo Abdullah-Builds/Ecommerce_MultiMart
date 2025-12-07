@@ -43,49 +43,6 @@ const PaymentInfo = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-//   const handleSubmit =async (e) => {
-//     e.preventDefault();
-//     if (!validate()) return;
-//     console.log("User Info:", userInfo);
-//     console.log("Payment Info:", paymentInfo);
-    
-//     try{
-//        await address.InsertInfo({address_line1 : userInfo.address1, address_line2 :userInfo.address2,city:userInfo.city,state:userInfo.state
-//         ,postal_code : userInfo.postalCode,country : userInfo.country
-//         })
-//        const response = await address.getAddress();
-// const addresses = response?.data;
-
-// console.log("Addresses:", addresses);
-
-// if (addresses && addresses.length > 0) {
-
-//   for (const item of addresses) {
-//     const addressId = item.address_id;
-
-//     console.log("Processing address:", addressId);
-
-//     const response =  await order.InsertInfo({
-//       address_id: addressId
-//     });
-//     await payment.InsertInfo({
-//       order_id : response?.data?.order_id,
-//       transaction_id: paymentInfo.transactionId,
-//       amount: response?.data?.total,
-//       method: paymentInfo.method
-//     });
-
-//   }
-
-// }
-
-//     }catch(err){
-//          console.log(err)
-//     }
-//     alert("Checkout submitted successfully!");
-//   };
-
-
 const handleSubmit = async (e) => {
   e.preventDefault();
   if (!validate()) return;
@@ -120,6 +77,11 @@ const handleSubmit = async (e) => {
     const orderId = orderRes.data.order_id;
     const totalAmount = orderRes.data.total;
 
+    if( Number(paymentInfo.amount) != Number(totalAmount)){
+      toast.error(`Payable Amount is ${totalAmount} `)
+      return;
+    }
+
     const paymentRes = await payment.InsertInfo({
       order_id: orderId,
       transaction_id: paymentInfo.transactionId,
@@ -131,7 +93,7 @@ const handleSubmit = async (e) => {
       toast.error("Payment failed.");
       return;
     }
-
+ 
     toast.success("Checkout completed successfully!");
 
   } catch (err) {
@@ -153,6 +115,28 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="checkout-container">
+      <div
+      style={{
+        padding: "20px",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        marginTop: "15px",
+      }}
+    >
+      <h3 style={{ marginBottom: "10px" }}>Transaction Details</h3>
+
+      <div
+        style={{
+          background: "#f5f5f5",
+          padding: "10px",
+          borderRadius: "5px",
+        }}
+      >
+        <p style={{ margin: 0 }}>
+          <strong>Transaction ID:</strong> TXN-123456789
+        </p>
+      </div>
+    </div>
       <form onSubmit={handleSubmit} className="checkout-form">
         <div className="checkout-card">
           <h2>User Information</h2>
